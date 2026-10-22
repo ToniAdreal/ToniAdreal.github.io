@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Toni Adreal · 支付/资金安全后端 & AI Agent 工程 · 外包接单 | Backend & AI Agent Engineering for Hire</title>
+<meta name="description" content="Toni Adreal — 远程后端/全栈工程师：支付与资金安全后端、托管结算、Webhook 签名、AI Agent / MCP 集成、代码审计。Remote backend engineer for payments, escrow, webhook signing, AI agents and MCP.">
+<style>
+:root{--bg:#f7f8fa;--card:#fff;--fg:#14171c;--muted:#5b6472;--line:#e3e6eb;--accent:#0f6fde;--accent-ink:#fff;--ok:#1a7f37;--warn:#9a6700;--chip:#eef2f7}
+@media (prefers-color-scheme:dark){:root{--bg:#0d1117;--card:#161b22;--fg:#e6edf3;--muted:#9aa4b2;--line:#2a313b;--accent:#4c9bff;--accent-ink:#0d1117;--ok:#3fb950;--warn:#d29922;--chip:#1f2630}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--fg)}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+header.top{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;height:56px;gap:12px}
+.brand{font-weight:700;letter-spacing:.2px;color:var(--fg)}
+nav.links{display:flex;gap:16px;font-size:14px}nav.links a{color:var(--muted)}
+@media (max-width:720px){nav.links{display:none}}
+.toggle{border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:999px;padding:6px 12px;font-size:13px;cursor:pointer}
+.hero{padding:56px 0 32px}
+.hero h1{font-size:clamp(28px,4.4vw,42px);line-height:1.2;margin:0 0 12px}
+.hero p.lead{font-size:18px;color:var(--muted);max-width:760px;margin:0 0 20px}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 24px;padding:0;list-style:none}
+.meta li,.chip{background:var(--chip);border-radius:999px;padding:4px 12px;font-size:13px;color:var(--muted)}
+.btns{display:flex;flex-wrap:wrap;gap:10px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:10px;font-weight:600;border:1px solid var(--line);background:var(--card);color:var(--fg)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn:hover{text-decoration:none;filter:brightness(1.05)}
+section{padding:36px 0;border-top:1px solid var(--line)}
+section h2{font-size:24px;margin:0 0 6px}
+section .sub{color:var(--muted);margin:0 0 22px}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+.card h3{margin:0 0 6px;font-size:17px}
+.card p{margin:0 0 10px;color:var(--muted);font-size:15px}
+.price{font-size:26px;font-weight:700;margin:6px 0 2px;color:var(--fg)}
+.price small{font-size:13px;font-weight:500;color:var(--muted)}
+.card ul{margin:8px 0 0;padding-left:18px;color:var(--muted);font-size:14px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.tags span{background:var(--chip);border-radius:6px;padding:2px 8px;font-size:12px;color:var(--muted)}
+.badge{display:inline-block;font-size:12px;font-weight:600;border-radius:6px;padding:2px 8px;margin-left:6px;vertical-align:middle}
+.badge.merged{background:color-mix(in srgb,var(--ok) 15%,transparent);color:var(--ok)}
+.badge.open{background:color-mix(in srgb,var(--warn) 15%,transparent);color:var(--warn)}
+.steps{counter-reset:s;display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));padding:0;list-style:none;margin:0}
+.steps li{counter-increment:s;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 18px 18px 58px;position:relative}
+.steps li::before{content:counter(s);position:absolute;left:18px;top:16px;width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:700;font-size:14px}
+.steps b{display:block}
+.steps span{color:var(--muted);font-size:14px}
+.note{font-size:14px;color:var(--muted);margin-top:16px}
+.contact{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.contact .card b{display:block;font-size:13px;color:var(--muted);font-weight:500}
+.contact .card div{font-weight:600;word-break:break-all}
+footer{padding:28px 0 48px;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
+[data-lang="en"] .zh,[data-lang="zh"] .en{display:none!important}
+</style>
+</head>
+<body data-lang="zh">
+<header class="top"><div class="wrap">
+  <a class="brand" href="#">Toni Adreal</a>
+  <nav class="links">
+    <a href="#services"><span class="zh">服务与报价</span><span class="en">Services</span></a>
+    <a href="#process"><span class="zh">下单流程</span><span class="en">Process</span></a>
+    <a href="#projects"><span class="zh">开源项目</span><span class="en">Projects</span></a>
+    <a href="#prs"><span class="zh">上游贡献</span><span class="en">Upstream PRs</span></a>
+    <a href="#contact"><span class="zh">联系</span><span class="en">Contact</span></a>
+  </nav>
+  <button class="toggle" id="langBtn" type="button" aria-label="Switch language"><span class="zh">English</span><span class="en">中文</span></button>
+</div></header>
+
+<main class="wrap">
+<div class="hero">
+  <h1><span class="zh">支付 / 资金安全后端 与 AI Agent 工程 · 远程接单</span><span class="en">Payments &amp; fund-security backends and AI agent engineering — available for remote contracts</span></h1>
+  <p class="lead"><span class="zh">我是 Toni Adreal，资深后端 / 全栈工程师，专注 AI × Web3：托管结算与对账状态机、Webhook / HTTP 消息签名、幂等下单，以及 AI Agent 与 MCP 工具集成。下方所有项目与 PR 均可在 GitHub 公开核验。</span><span class="en">I'm Toni Adreal, a senior backend / full-stack engineer working at the intersection of AI and Web3: escrow settlement and reconciliation state machines, webhook / HTTP message signing, idempotent ordering, and AI agent &amp; MCP tool integration. Every project and PR below is public and verifiable on GitHub.</span></p>
+  <ul class="meta">
+    <li><span class="zh">📍 中国宁波 · UTC+8</span><span class="en">📍 Ningbo, China · UTC+8</span></li>
+    <li><span class="zh">仅远程</span><span class="en">Remote only</span></li>
+    <li><span class="zh">中文 / 英文均可工作</span><span class="en">Works in Chinese &amp; English</span></li>
+    <li><span class="zh">接受 USDT / USD</span><span class="en">USDT / USD accepted</span></li>
+  </ul>
+  <div class="btns">
+    <a class="btn primary" href="mailto:toniadreal11@gmail.com?subject=%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82%20/%20Project%20scope%20%E2%80%94%20via%20portfolio&amp;body=%E4%BD%A0%E5%A5%BD%20Toni%20/%20Hi%20Toni%2C%0A%0A%E9%A1%B9%E7%9B%AE%E7%AE%80%E4%BB%8B%20/%20Project%20summary%3A%0A%0A%E9%9C%80%E8%A6%81%E7%9A%84%E6%9C%8D%E5%8A%A1%20/%20Service%20needed%20%28module%20/%20AI%20agent%20/%20audit%20/%20retainer%29%3A%0A%0A%E6%8A%80%E6%9C%AF%E6%A0%88%E4%B8%8E%E4%BB%93%E5%BA%93%20/%20Stack%20%26%20repo%20%28if%20any%29%3A%0A%0A%E6%9C%9F%E6%9C%9B%E6%97%B6%E9%97%B4%20/%20Desired%20timeline%3A%0A%0A%E9%A2%84%E7%AE%97%E8%8C%83%E5%9B%B4%20/%20Budget%20range%3A%0A%0A"><span class="zh">✉️ 发送需求</span><span class="en">✉️ Send your scope</span></a>
+    <a class="btn" href="https://t.me/Toni_Adreal" target="_blank" rel="noopener">Telegram</a>
+    <a class="btn" href="https://github.com/ToniAdreal" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</div>
+
+<section id="services">
+  <h2><span class="zh">服务与报价</span><span class="en">Services &amp; pricing</span></h2>
+  <p class="sub"><span class="zh">以下均为<b>起步价</b>，最终价格按需求范围报价。支持 USDT 或 USD 结算。</span><span class="en">All prices are <b>starting from</b>; the final price is quoted per scope. USDT or USD accepted.</span></p>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="zh">支付 / 托管 / Webhook 签名后端模块</span><span class="en">Payment / escrow / webhook-signing backend module</span></h3>
+      <div class="price"><span class="zh">$1,500 <small>起</small></span><span class="en"><small>from</small> $1,500</span></div>
+      <ul class="zh"><li>托管资金状态机、结算与费用计算</li><li>Webhook 签名与验签、去重与重试</li><li>幂等下单、对账与审计日志</li></ul>
+      <ul class="en"><li>Escrow state machines, settlement &amp; fee calculation</li><li>Webhook signing / verification, dedupe &amp; retries</li><li>Idempotent ordering, reconciliation &amp; audit logs</li></ul>
+    </div>
+    <div class="card">
+      <h3><span class="zh">AI Agent / MCP 工具集成</span><span class="en">AI agent / MCP tool integration</span></h3>
+      <div class="price"><span class="zh">$1,200 <small>起</small></span><span class="en"><small>from</small> $1,200</span></div>
+      <ul class="zh"><li>MCP 服务器 / 工具接入</li><li>Agent 工作流与确定性校验门禁</li><li>LLM 调用与现有后端集成</li></ul>
+      <ul class="en"><li>MCP servers / tool integration</li><li>Agent workflows with deterministic verification gates</li><li>Wiring LLM calls into your existing backend</li></ul>
+    </div>
+    <div class="card">
+      <h3><span class="zh">代码审计与修复冲刺</span><span class="en">Code audit &amp; fix sprint</span></h3>
+      <div class="price"><span class="zh">$800 <small>起</small></span><span class="en"><small>from</small> $800</span></div>
+      <ul class="zh"><li>后端 / 安全代码审查</li><li>问题清单 + 修复 PR + 回归测试</li></ul>
+      <ul class="en"><li>Backend / security code review</li><li>Findings report + fix PRs + regression tests</li></ul>
+    </div>
+    <div class="card">
+      <h3><span class="zh">按小时 / 长期合作</span><span class="en">Hourly / retainer</span></h3>
+      <div class="price">$40<small><span class="zh"> / 小时</span><span class="en"> / hour</span></small></div>
+      <p><span class="zh">按月全职等效（FTE）：<b>5,000 USDT / 月起</b></span><span class="en">Monthly full-time equivalent: <b>from 5,000 USDT / month</b></span></p>
+    </div>
+  </div>
+  <p class="note"><span class="zh">报价按需提供：发送需求后我会给出固定报价。</span><span class="en">Quotes on request: send your scope and I'll reply with a fixed quote.</span></p>
+</section>
+
+<section id="process">
+  <h2><span class="zh">下单流程</span><span class="en">How to order</span></h2>
+  <p class="sub"><span class="zh">自助下单：发邮件或 Telegram 发送需求即可。</span><span class="en">Self-serve: send your scope by email or Telegram.</span></p>
+  <ol class="steps">
+    <li><b><span class="zh">发送需求</span><span class="en">Send your scope</span></b><span><span class="zh">项目简介、技术栈、期望时间与预算范围。</span><span class="en">Summary, stack, timeline and budget range.</span></span></li>
+    <li><b><span class="zh">24 小时内固定报价</span><span class="en">Fixed quote within 24h</span></b><span><span class="zh">含范围、里程碑与交付物。</span><span class="en">With scope, milestones and deliverables.</span></span></li>
+    <li><b><span class="zh">里程碑付款</span><span class="en">Milestone payments</span></b><span><span class="zh">30% 预付启动，其余按里程碑验收付款（USDT / USD）。</span><span class="en">30% upfront to start, the rest paid per accepted milestone (USDT / USD).</span></span></li>
+  </ol>
+  <div class="btns" style="margin-top:20px">
+    <a class="btn primary" href="mailto:toniadreal11@gmail.com?subject=%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82%20/%20Project%20scope%20%E2%80%94%20via%20portfolio&amp;body=%E4%BD%A0%E5%A5%BD%20Toni%20/%20Hi%20Toni%2C%0A%0A%E9%A1%B9%E7%9B%AE%E7%AE%80%E4%BB%8B%20/%20Project%20summary%3A%0A%0A%E9%9C%80%E8%A6%81%E7%9A%84%E6%9C%8D%E5%8A%A1%20/%20Service%20needed%20%28module%20/%20AI%20agent%20/%20audit%20/%20retainer%29%3A%0A%0A%E6%8A%80%E6%9C%AF%E6%A0%88%E4%B8%8E%E4%BB%93%E5%BA%93%20/%20Stack%20%26%20repo%20%28if%20any%29%3A%0A%0A%E6%9C%9F%E6%9C%9B%E6%97%B6%E9%97%B4%20/%20Desired%20timeline%3A%0A%0A%E9%A2%84%E7%AE%97%E8%8C%83%E5%9B%B4%20/%20Budget%20range%3A%0A%0A"><span class="zh">✉️ 发送需求（邮件）</span><span class="en">✉️ Send your scope (email)</span></a>
+    <a class="btn" href="https://t.me/Toni_Adreal" target="_blank" rel="noopener"><span class="zh">在 Telegram 联系</span><span class="en">Message on Telegram</span></a>
+  </div>
+</section>
+
+<section id="projects">
+  <h2><span class="zh">开源项目</span><span class="en">Open-source projects</span></h2>
+  <p class="sub"><span class="zh">均为 GitHub 公开仓库，说明摘自各仓库 README。</span><span class="en">All public GitHub repositories; descriptions are taken from each repo's README.</span></p>
+  <div class="grid">
+    <div class="card">
+      <h3><a href="https://github.com/ToniAdreal/verifygate" target="_blank" rel="noopener">verifygate</a></h3>
+      <p><span class="zh">面向编码 Agent 的交付前验证工具：按任务规格在沙盒副本中运行单元测试、复现脚本与 lint / 类型检查；LLM 只提出补丁与解释，PASS/FAIL 只由确定性校验决定，并输出 hash 链签名、可重放的证据记录。</span><span class="en">Pre-delivery verification harness for coding agents: runs a task spec's unit tests, repro scripts and lint/type gates in a sandboxed copy; the LLM only proposes patches and explanations, deterministic checks decide PASS/FAIL, and a signed, hash-chained, replayable evidence record is produced.</span></p>
+      <div class="tags"><span>Python</span><span>NVIDIA Nemotron (Nebius Token Factory)</span><span>AI Agent</span></div>
+    </div>
+    <div class="card">
+      <h3><a href="https://github.com/ToniAdreal/verifypay-arc" target="_blank" rel="noopener">VerifyPay (verifypay-arc)</a></h3>
+      <p><span class="zh">Arc 链上的 USDC 托管合约：仅当指定验证者对交付物哈希签署 EIP-712 PASS 时放款给 AI 编码 Agent，超时未通过则付款方退款；可与 verifygate 证据记录配合。使用 Arc Studio 构建。</span><span class="en">USDC escrow on Arc that pays an AI coding agent only when a designated verifier signs an EIP-712 PASS over the deliverable hash; the payer refunds if no PASS arrives by the deadline. Pairs with verifygate evidence records. Built with Arc Studio.</span></p>
+      <div class="tags"><span>Solidity</span><span>EIP-712</span><span>USDC</span><span>Arc</span></div>
+    </div>
+    <div class="card">
+      <h3><a href="https://github.com/ToniAdreal/escrow-state-machine-ts" target="_blank" rel="noopener">escrow-state-machine-ts</a></h3>
+      <p><span class="zh">确定性托管资金放行状态机（CREATED → FUNDED → MILESTONE_SUBMITTED → VERIFIED → RELEASED）与费用计算、gross-to-net 结算；审计历史 hash 链防篡改，生成签名结算 Webhook，含争议仲裁分支。</span><span class="en">Deterministic escrow fund-release state machine (CREATED → FUNDED → MILESTONE_SUBMITTED → VERIFIED → RELEASED) with fee calculation and gross-to-net settlement; hash-chained audit history, signed settlement webhooks, and a dispute/arbitration branch.</span></p>
+      <div class="tags"><span>TypeScript</span><span><span class="zh">零运行时依赖</span><span class="en">zero runtime deps</span></span></div>
+    </div>
+    <div class="card">
+      <h3><a href="https://github.com/ToniAdreal/rfc9421-signing-demo" target="_blank" rel="noopener">rfc9421-signing-demo</a></h3>
+      <p><span class="zh">按 RFC 9421 实现 HTTP 消息签名与验签（ed25519 / hmac-sha256），RFC 9530 Content-Digest 消息体绑定、多方追加签名、nonce 防重放与 JWKS 密钥解析。演示项目，非认证实现。</span><span class="en">HTTP message signing and verification per RFC 9421 (ed25519 / hmac-sha256) with RFC 9530 Content-Digest body binding, multi-party signatures, nonce replay protection and JWKS key resolution. A demo, not a certified implementation.</span></p>
+      <div class="tags"><span>TypeScript</span><span>node:crypto</span><span>RFC 9421</span></div>
+    </div>
+    <div class="card">
+      <h3><a href="https://github.com/ToniAdreal/dataquest-task-lifecycle" target="_blank" rel="noopener">dataquest-task-lifecycle</a></h3>
+      <p><span class="zh">双边数据市场的任务生命周期状态机：从创建到付款，覆盖放弃、过期与争议处理；含签名付款 Webhook、接收端去重、Retry-After 解析与对账筛查。</span><span class="en">Task lifecycle state machine for a two-sided data marketplace, from creation to payout, covering abandonment, expiration and dispute resolution; includes signed payout webhooks, receiver-side dedupe, Retry-After parsing and reconciliation screens.</span></p>
+      <div class="tags"><span>TypeScript</span><span><span class="zh">零运行时依赖</span><span class="en">zero runtime deps</span></span></div>
+    </div>
+    <div class="card">
+      <h3><a href="https://github.com/ToniAdreal/campus-secondhand-marketplace" target="_blank" rel="noopener">campus-secondhand-marketplace</a></h3>
+      <p><span class="zh">Spring Boot + React 全栈作品集项目（非生产系统）：幂等下单（Idempotency-Key）、乐观锁、JWT 刷新令牌轮换、只追加审计日志；JUnit 5、Testcontainers、Playwright 测试与 GitHub Actions CI。</span><span class="en">Spring Boot + React full-stack portfolio project (not a production system): idempotent ordering (Idempotency-Key), optimistic locking, JWT refresh-token rotation, append-only audit log; JUnit 5, Testcontainers, Playwright tests and GitHub Actions CI.</span></p>
+      <div class="tags"><span>Java 17</span><span>Spring Boot 3.2</span><span>MySQL 8</span><span>React 18</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="prs">
+  <h2><span class="zh">上游开源贡献</span><span class="en">Upstream pull requests</span></h2>
+  <p class="sub"><span class="zh">状态以 GitHub 实时状态为准。</span><span class="en">Status reflects GitHub at the time of publishing; click through for the live state.</span></p>
+  <div class="grid">
+    <div class="card">
+      <h3><a href="https://github.com/open-telemetry/opentelemetry-go/pull/9238" target="_blank" rel="noopener">opentelemetry-go #9238</a><span class="badge merged"><span class="zh">已合并</span><span class="en">Merged</span></span></h3>
+      <p><span class="zh">修复事件 / 链接上限为 0 时 span 快照丢失 dropped 计数的问题。</span><span class="en">Fix span snapshot reporting 0 dropped events/links at zero limits.</span></p>
+      <div class="tags"><span>Go</span></div>
+    </div>
+    <div class="card">
+      <h3><a href="https://github.com/FOSSBilling/FOSSBilling/pull/4521" target="_blank" rel="noopener">FOSSBilling #4521</a><span class="badge merged"><span class="zh">已合并</span><span class="en">Merged</span></span></h3>
+      <p><span class="zh">修复服务列表分页链接指向商品目录路由的问题。</span><span class="en">Fix services list pagination linking to the catalog route.</span></p>
+      <div class="tags"><span>Twig</span><span>Billing</span></div>
+    </div>
+    <div class="card">
+      <h3><a href="https://github.com/activemerchant/active_merchant/pull/5599" target="_blank" rel="noopener">activemerchant #5599</a><span class="badge open"><span class="zh">开放 / 评审中</span><span class="en">Open / under review</span></span></h3>
+      <p><span class="zh">StripePaymentIntents：同时传入顶层网络交易 ID 与 stored credential 时保留 3DS 的 ds_transaction_id，并新增回归测试。</span><span class="en">StripePaymentIntents: preserve ds_transaction_id when a top-level network_transaction_id is passed with a stored credential; adds a regression test.</span></p>
+      <div class="tags"><span>Ruby</span><span>Payments</span></div>
+    </div>
+    <div class="card">
+      <h3><a href="https://github.com/gitleaks/gitleaks/pull/2300" target="_blank" rel="noopener">gitleaks #2300</a><span class="badge open"><span class="zh">开放 / 评审中</span><span class="en">Open / under review</span></span></h3>
+      <p><span class="zh">检测报告文件（含明文敏感信息）以 0600 仅属主权限写入，并对已有文件重新 chmod。</span><span class="en">Write report files (which contain plaintext secrets) with owner-only 0600 permissions, re-chmodding existing files.</span></p>
+      <div class="tags"><span>Go</span><span>Security</span></div>
+    </div>
+    <div class="card">
+      <h3><a href="https://github.com/IBM/mcp-context-forge/pull/7129" target="_blank" rel="noopener">IBM/mcp-context-forge #7129</a><span class="badge open"><span class="zh">开放 / 评审中</span><span class="en">Open / under review</span></span></h3>
+      <p><span class="zh">MCP 网关：将 /oauth/callback 授权码长度上限由 2048 提高到 4096，避免超长授权码被 FastAPI 参数校验直接拒绝（422）。</span><span class="en">MCP gateway: raise the /oauth/callback code max_length from 2048 to 4096 so long authorization codes are no longer rejected by FastAPI validation (422).</span></p>
+      <div class="tags"><span>Python</span><span>FastAPI</span><span>MCP</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="stack">
+  <h2><span class="zh">技术栈</span><span class="en">Stack</span></h2>
+  <p class="sub"><span class="zh">摘自简历。</span><span class="en">From my résumé.</span></p>
+  <div class="tags" style="gap:8px">
+    <span>Go</span><span>Node.js (NestJS, Express)</span><span>Python (FastAPI)</span><span>TypeScript</span><span>Java / Spring Boot</span><span>PostgreSQL</span><span>Redis</span><span>EIP-712</span><span>Viem / Wagmi / ethers.js</span><span>Model Context Protocol (MCP)</span><span>React / Next.js</span><span>Docker</span><span>GitHub Actions</span><span>Playwright / Vitest / Jest</span>
+  </div>
+</section>
+
+<section id="contact">
+  <h2><span class="zh">联系方式</span><span class="en">Contact</span></h2>
+  <p class="sub"><span class="zh">中国宁波（UTC+8），仅远程合作。</span><span class="en">Ningbo, China (UTC+8), remote only.</span></p>
+  <div class="contact">
+    <a class="card" href="mailto:toniadreal11@gmail.com?subject=%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82%20/%20Project%20scope%20%E2%80%94%20via%20portfolio&amp;body=%E4%BD%A0%E5%A5%BD%20Toni%20/%20Hi%20Toni%2C%0A%0A%E9%A1%B9%E7%9B%AE%E7%AE%80%E4%BB%8B%20/%20Project%20summary%3A%0A%0A%E9%9C%80%E8%A6%81%E7%9A%84%E6%9C%8D%E5%8A%A1%20/%20Service%20needed%20%28module%20/%20AI%20agent%20/%20audit%20/%20retainer%29%3A%0A%0A%E6%8A%80%E6%9C%AF%E6%A0%88%E4%B8%8E%E4%BB%93%E5%BA%93%20/%20Stack%20%26%20repo%20%28if%20any%29%3A%0A%0A%E6%9C%9F%E6%9C%9B%E6%97%B6%E9%97%B4%20/%20Desired%20timeline%3A%0A%0A%E9%A2%84%E7%AE%97%E8%8C%83%E5%9B%B4%20/%20Budget%20range%3A%0A%0A"><b>Email</b><div>toniadreal11@gmail.com</div></a>
+    <a class="card" href="https://t.me/Toni_Adreal" target="_blank" rel="noopener"><b>Telegram</b><div>@Toni_Adreal</div></a>
+    <div class="card"><b><span class="zh">微信</span><span class="en">WeChat</span></b><div>13070249160</div></div>
+    <a class="card" href="https://github.com/ToniAdreal" target="_blank" rel="noopener"><b>GitHub</b><div>@ToniAdreal</div></a>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap">© Toni Adreal · <span class="zh">价格为起步价，最终以书面报价为准。</span><span class="en">Prices are starting points; the written quote is final.</span></div></footer>
+
+<script>
+(function(){
+  var b=document.body,btn=document.getElementById('langBtn');
+  var q=new URLSearchParams(location.search).get('lang')||(location.hash==='#en'?'en':null);
+  var saved=null;try{saved=localStorage.getItem('lang')}catch(e){}
+  function set(l){b.setAttribute('data-lang',l);document.documentElement.lang=l==='en'?'en':'zh-CN';try{localStorage.setItem('lang',l)}catch(e){}}
+  set(q==='en'||q==='zh'?q:(saved||'zh'));
+  btn.addEventListener('click',function(){set(b.getAttribute('data-lang')==='zh'?'en':'zh')});
+})();
+</script>
+</body>
+</html>
